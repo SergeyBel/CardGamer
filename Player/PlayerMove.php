@@ -20,7 +20,7 @@ class PlayerMove
   public $card; // if action needs card, card save here
 
 
-  public function __construct($type, Card $card)
+  public function __construct($type, Card $card = null)
   {
     $this->card = $card;
     $this->type = $type;
