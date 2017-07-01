@@ -1,4 +1,6 @@
 <?php
+require_once('Cards\CardsDeck.php');
+
 
 class GameState
 {
@@ -10,6 +12,8 @@ class GameState
   private $state;
   private $gameHistory;
 
+  const CARDS_IN_HAND = 6;
+
   const STATE_GAME_START = 1;
   const STATE_ROUND_FINISH = 5;
   const STATE_GAME_FINISH = 10;
@@ -19,12 +23,12 @@ class GameState
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
 
-    $this->tableCards = new CardsArray();
+    $this->tableCards = array();
     $this->player1 = $player1;
     $this->player2 = $player2;
-    $player1->setCards($this->deck->popCards(6));
-    $player2->setCards($this->deck->popCards(6));
-    $this->state = STATE_GAME_START;
+    $player1->setCards($this->deck->popCards($this::CARDS_IN_HAND));
+    $player2->setCards($this->deck->popCards($this::CARDS_IN_HAND));
+    $this->state = $this::STATE_GAME_START;
   }
 
   public function getState()

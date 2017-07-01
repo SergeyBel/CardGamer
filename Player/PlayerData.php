@@ -5,7 +5,6 @@ class PlayerData
   public $trumpCard;
   public $deckSize;
   public $roundNumber;
-  public $handCards;
   public $moveType;
   public $tableDiscardedPairs;
   public $enemyCard;
@@ -15,8 +14,4 @@ class PlayerData
 
   }
 
-  public function toString() : string
-  {
-    return "";
-  }
 }

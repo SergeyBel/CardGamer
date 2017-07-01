@@ -1,4 +1,5 @@
 <?php
+require_once('Game\GameState.php');
 
 class Game
 {
