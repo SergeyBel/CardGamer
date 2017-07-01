@@ -71,10 +71,9 @@ class Player
     foreach ($this->hand as $card) {
       $res .= $this->cardToString($card) . "\n";
     }
-    $res .= count($playerData->tableDiscardedPairs)."\n";
-    foreach ($playerData->tableDiscardedPairs as $pair) {
-      $res .= $this->cardToString($pair[0]) . "\n";
-      $res .= $this->cardToString($pair[1]) . "\n";
+    $res .= count($playerData->tableDiscardedCards)."\n";
+    foreach ($playerData->tableDiscardedCards as $card) {
+      $res .= $this->cardToString($card) . "\n";
     }
     $res .= $playerData->moveType."\n";
     if($playerData->enemyCard)

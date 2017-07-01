@@ -36,7 +36,7 @@ class PlayerExe
   {
     $res = fgets($this->pipes[1]);
     if($res === false)
-      trow new Exception("fgets failed");
+      throw new Exception("fgets failed");
     return $res;
   }
 
