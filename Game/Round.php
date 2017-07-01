@@ -8,6 +8,7 @@ class Round
   public function __construct($gameState)
   {
     $this->gameState = $gameState;
+    $this->gameState->startRound();
   }
 
   public function playRound()
@@ -21,7 +22,8 @@ class Round
 
   protected function isRoundFinished()
   {
-    return $gameState->getStatus() == GameState::STATE_ROUND_FINISH;
+    $status = $gameState->getStatus();
+    return ($status == GameState::STATE_ROUND_FINISH || $status == GameState::STATE_GAME_FINISH);
   }
 
   protected function playMove()

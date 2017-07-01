@@ -7,11 +7,12 @@ class GameState
   public $trump;
   public $tableCards;
   public $deck;
-  private $player1;
-  private $player2;
   private $state;
   private $gameHistory;
+  private $player1;
+  private $player2;
   private $movingPlayer;
+
 
   const CARDS_IN_HAND = 6;
 
@@ -25,11 +26,63 @@ class GameState
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
     $this->tableCards = array();
+    $this->state = $this::STATE_GAME_START;
     $this->player1 = $player1;
     $this->player2 = $player2;
-    $this->state = $this::STATE_GAME_START;
     $this->movingPlayer = $player1;
   }
+
+  public function updateStateAfterPlayerMove($move)
+  {
+    switch($move->type)
+    {
+      //Todo: change to actual statuses
+      case PlayerMove::TYPE_DISCARD:
+        $this->updateStateAfterDiscardPlayerMove($move);
+        break;
+      case PlayerMove::TYPE_TAKE:
+        $this->updateStateAfterTakePlayerMove($move);
+        break;
+      case PlayerMove::TYPE_ATTACK:
+        $this->updateStateAfterAttacklayerMove($move);
+        break;
+      case PlayerMove::TYPE_DEFENCE:
+        $this->updateStateAfterDefencePlayerMove($move);
+        break;
+      default:
+        break;
+    }
+  }
+
+  private function updateStateAfterDiscardPlayerMove($move)
+  {
+    $this->tableCards = array();
+    $this->state = $this::STATE_ROUND_FINISH;
+    $this->playerState->changeMovePlayer();
+  }
+
+  private function updateStateAfterTakePlayerMove($move)
+  {
+    $this->tableCards = array();
+    $this->state = $this::STATE_ROUND_FINISH;
+    $this->addCardsForPlayer($this->movingPlayer, $tableCards);
+    $this->playerState->changeMovePlayer();
+  }
+
+  private function updateStateAfterAttackPlayerMove($move)
+  {
+    $this->tableCards[] = $move->card;
+    //check that card value in card values on table
+    $this->playerState->changeMovePlayer();
+  }
+
+    private function updateStateAfterDefencePlayerMove($move)
+  {
+    $this->tableCards[] = $move->card;
+    //check that card more than attack card
+    $this->playerState->changeMovePlayer();
+  }
+
 
   public function distributeCards()
   {
@@ -39,16 +92,10 @@ class GameState
 
   private function distributeCardsForPlayer($player)
   {
-    $cards = $player->getCards();
-    $newCards = $this->deck->popCards($this::CARDS_IN_HAND - count($cards));
-    $player->setCards(array_merge($cards, $newCards));
+    $newCards = $this->deck->popCards($this::CARDS_IN_HAND - $player->coundHandCards());
+    $player->addHandCards($newCards);
   }
 
-  private function addCardsForPlayer($player, $newCards)
-  {
-    $cards = $player->getCards();
-    $player->setCards(array_merge($cards, $newCards));
-  }
 
   public function startRound()
   {
@@ -67,41 +114,9 @@ class GameState
 
   public function getMovePlayer()
   {
-    return $this->movingPlayer;
-  }
-
-  public function changeMovePlayer()
-  {
     if ($this->movingPlayer == $this->player1)
       $this->movingPlayer = $this->player2;
     else
       $this->movingPlayer = $this->player1;
-  }
-
-  public function updateStateAfterPlayerMove($move)
-  {
-    switch($move->type)
-    {
-      //Todo: change to actual statuses
-      case PlayerMove::DROP:
-      case PlayerMove::TAKE:
-      case PlayerMove::ATTACK:
-      case PlayerMove::DEFENCE:
-    }
-  }
-
-  private function updateStateAfterDropPlayerMove($move)
-  {
-    $this->tableCards = array();
-    $this->state = $this::STATE_ROUND_FINISH;
-    $this->changeMovePlayer();
-  }
-
-  private function updateStateAfterTakePlayerMove($move)
-  {
-    $this->tableCards = array();
-    $this->state = $this::STATE_ROUND_FINISH;
-    $this->addCardsForPlayer($this->movingPlayer, $tableCards);
-    $this->changeMovePlayer();
   }
 }
