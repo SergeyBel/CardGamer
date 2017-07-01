@@ -7,7 +7,6 @@ class PlayerData
 
   public $trumpCard;
   public $deckSize;
-  public $roundNumber;
   public $moveType;
   public $tableDiscardedCards;
   public $enemyCard;

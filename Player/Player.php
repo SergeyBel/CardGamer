@@ -64,7 +64,6 @@ class Player
 
   protected function playerDataToString(PlayerData $playerData) : string {
     $res = "";
-    $res .= $playerData->roundNumber."\n";
     $res .= $playerData->deckSize."\n";
     $res .= $this->cardToString($playerData->trumpCard)."\n";
     $res .= count($this->hand)."\n";
