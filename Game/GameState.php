@@ -27,7 +27,7 @@ class GameState
   {
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
-    $this->trump = $this->deck->getRandomCard();
+    $this->trump = $this->deck->getTrump();
     $this->tableCards = array();
     $this->state = $this::STATE_GAME_START;
     $this->player1 = $player1;

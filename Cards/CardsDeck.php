@@ -26,9 +26,7 @@ class CardsDeck
     {
       $j = rand(0, count($this->cards) - 1);
       $k = rand(0, count($this->cards) - 1);
-      $c = $this->cards[$k];
-      $this->cards[$k] = $this->cards[$j];
-      $this->cards[$j] = $c;
+      $this->swapCards($k, $j);
     }
   }
 
@@ -39,10 +37,19 @@ class CardsDeck
     return array_slice($this->cards, 0, $count);
   }
 
-  public function getRandomCard()
+  public function getTrump()
   {
     $j = rand(0, count($this->cards) - 1);
-    return $this->cards[$j];
+    $this->swapCards($j, count($this->cards) - 1);
+    return $this->cards[$count($this->cards) - 1];
+  }
+
+  private function swapCards($i, $j)
+  {
+    $c = $this->cards[$i];
+    $this->cards[$i] = $this->cards[$j];
+    $this->cards[$j] = $c;
+
   }
 
   public function getSize()
