@@ -14,6 +14,7 @@ class GameState
   private $movingPlayer;
   private $movingType;
   private $lastAttackCard;
+  private $winner;
 
   const CARDS_IN_HAND = 6;
 
@@ -33,6 +34,7 @@ class GameState
     $this->player2 = $player2;
     $this->movingPlayer = $player1;
     $this->movingType = PlayerData::TYPE_ATTACK;
+    $winner = null;
   }
 
   public function createPlayerData()
@@ -41,9 +43,11 @@ class GameState
     $data->trumpCard = $this->trump;
     $data->deckSize = $this->deck->getSize();
     $data->moveType = $this->movingType;
-    $data->tableDiscardedPairs = $table;
-    if ($this->movingType == PlayerData::TYPE_DEFENCE)
+    $data->tableDiscardedCards = $this->table;
+    if ($this->movingType == PlayerData::TYPE_DEFEND)
       $data->enemyCard = $this->lastAttackCard;
+    else
+      $data->enemyCard = false;
   }
 
   public function updateStateAfterPlayerMove($move)
@@ -59,7 +63,7 @@ class GameState
       case PlayerMove::TYPE_ATTACK:
         $this->updateStateAfterAttacklayerMove($move);
         break;
-      case PlayerMove::TYPE_DEFENCE:
+      case PlayerMove::TYPE_DEFEND:
         $this->updateStateAfterDefencePlayerMove($move);
         break;
       default:
@@ -71,7 +75,7 @@ class GameState
   {
     $this->tableCards = array();
     $this->state = $this::STATE_ROUND_FINISH;
-    $this->playerState->changeMovePlayer();
+    $this->changeMovePlayer();
   }
 
   private function updateStateAfterTakePlayerMove($move)
@@ -79,7 +83,7 @@ class GameState
     $this->tableCards = array();
     $this->state = $this::STATE_ROUND_FINISH;
     $this->addCardsForPlayer($this->movingPlayer, $tableCards);
-    $this->playerState->changeMovePlayer();
+    $this->changeMovePlayer();
   }
 
   private function updateStateAfterAttackPlayerMove($move)
@@ -89,10 +93,12 @@ class GameState
       $this->state = STATE_GAME_FINISH;
       return;
     }
+    if ($this->isGameFinished())
+      return;
     $this->tableCards[] = $move->card;
     $this->lastAttackCard = $move->card;
-    $this->movingType = PlayerData::TYPE_DEFENCE;
-    $this->playerState->changeMovePlayer();
+    $this->movingType = PlayerData::TYPE_DEFEND;
+    $this->changeMovePlayer();
   }
 
     private function updateStateAfterDefencePlayerMove($move)
@@ -102,9 +108,32 @@ class GameState
       $this->state = STATE_GAME_FINISH;
       return;
     }
+    if ($this->isGameFinished())
+      return;
     $this->tableCards[] = $move->card;
     $this->movingType = PlayerData::TYPE_ATTACK;
-    $this->playerState->changeMovePlayer();
+    $this->changeMovePlayer();
+  }
+
+  private function isGameFinished()
+  {
+    if ($this->deck->getSize() == 0)
+    {
+      if ($this->$player1->countHandCards() == 0)
+      {
+        $this->winner = $this->player1;
+        $this->state = $this::STATE_ROUND_FINISH;
+        return true;
+      }
+
+      if ($this->player2->countHandCards() == 0)
+      {
+        $this->winner = $this->player2;
+        $this->state = $this::STATE_ROUND_FINISH;
+        return true;    
+      }
+    }
+    return false;
   }
 
 
@@ -116,7 +145,7 @@ class GameState
 
   private function distributeCardsForPlayer($player)
   {
-    $newCards = $this->deck->popCards($this::CARDS_IN_HAND - $player->coundHandCards());
+    $newCards = $this->deck->popCards($this::CARDS_IN_HAND - $player->countHandCards());
     $player->addHandCards($newCards);
   }
 
@@ -134,6 +163,11 @@ class GameState
   public function getHistory()
   {
     return $this->gameHistory;
+  }
+
+  public function getWinner()
+  {
+    return $this->winner;
   }
 
   public function getMovePlayer()

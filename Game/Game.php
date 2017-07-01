@@ -11,14 +11,17 @@ class Game
     $this->gameState = new GameState($player1, $player2);
   }
 
-  public function startGame()
+  public function startGame(&$gameStory)
   {
     while (!$this->isGameFinished())
     {
       $round = new Round($this->gameState);
       $round->playRound();
     }
-    return $this->gameState->getHistory();
+
+    $gameHistory = $this->gameState->getHistory();
+
+    return $this->gameState->getWinner();
   }
 
   protected function isGameFinished()
