@@ -87,6 +87,13 @@ class Player
     $this->hand[] = $card;
   }
 
+  public function addHandCards(array $cards)
+  {
+    foreach ($cards as $card) {
+      $this->addHandCard($card);
+    }
+  }
+
   public function getHandCards() : array
   {
     return $this->hand;

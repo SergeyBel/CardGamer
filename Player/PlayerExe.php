@@ -10,7 +10,7 @@ class PlayerExe
     $descriptorSpec = array(
       0 => array("pipe", "r"),  // stdin - канал, из которого дочерний процесс будет читать
       1 => array("pipe", "w"),  // stdout - канал, в который дочерний процесс будет записывать
-      2 => array("file", "/dev/null", "w") // stderr - файл для записи
+      2 => array("pipe", "w") // stderr - файл для записи
     );
 
     $this->process = proc_open($commandLine, $descriptorSpec, $this->pipes);

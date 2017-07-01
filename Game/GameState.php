@@ -1,6 +1,4 @@
 <?php
-require_once('Cards\CardsDeck.php');
-
 
 class GameState
 {
@@ -143,7 +141,7 @@ class GameState
     $this->distributeCardsForPlayer($this->player2);
   }
 
-  private function distributeCardsForPlayer($player)
+  private function distributeCardsForPlayer(Player $player)
   {
     $newCards = $this->deck->popCards($this::CARDS_IN_HAND - $player->countHandCards());
     $player->addHandCards($newCards);

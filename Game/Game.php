@@ -1,5 +1,4 @@
 <?php
-require_once('Game\GameState.php');
 
 class Game
 {
@@ -26,6 +25,6 @@ class Game
 
   protected function isGameFinished()
   {
-    return $gameState->getStatus() == GameState::STATE_GAME_FINISH;
+    return $this->gameState->getState() == GameState::STATE_GAME_FINISH;
   }
 }

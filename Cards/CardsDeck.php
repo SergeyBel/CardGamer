@@ -41,7 +41,7 @@ class CardsDeck
   {
     $j = rand(0, count($this->cards) - 1);
     $this->swapCards($j, count($this->cards) - 1);
-    return $this->cards[$count($this->cards) - 1];
+    return $this->cards[count($this->cards) - 1];
   }
 
   private function swapCards($i, $j)
