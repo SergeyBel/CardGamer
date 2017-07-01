@@ -10,7 +10,7 @@ class Game
     $this->gameState = new GameState($player1, $player2);
   }
 
-  public function startGame(&$gameStory)
+  public function startGame(&$gameHistory)
   {
     while (!$this->isGameFinished())
     {

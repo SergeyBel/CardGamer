@@ -30,6 +30,6 @@ class Round
   {
     $player = $this->gameState->getMovePlayer();
     $move = $player->makeMove($this->gameState->createPlayerData());
-    $gameState->updateStateAfterPlayerMove($move);
+    $this->gameState->updateStateAfterPlayerMove($move);
   }
 }

@@ -88,6 +88,8 @@ class Player
 
   public function addHandCards(array $cards)
   {
+    if(empty($cards))
+      return;
     foreach ($cards as $card) {
       $this->addHandCard($card);
     }

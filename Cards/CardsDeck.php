@@ -1,6 +1,4 @@
 <?php
-require_once('Cards\Card.php');
-
 
 class CardsDeck
 {
@@ -33,8 +31,8 @@ class CardsDeck
   public function popCards($count)
   {
     if ($count <= 0)
-      return;
-    return array_slice($this->cards, 0, $count);
+      return null;
+    return array_splice($this->cards, 0, $count);
   }
 
   public function getTrump()
@@ -49,7 +47,6 @@ class CardsDeck
     $c = $this->cards[$i];
     $this->cards[$i] = $this->cards[$j];
     $this->cards[$j] = $c;
-
   }
 
   public function getSize()

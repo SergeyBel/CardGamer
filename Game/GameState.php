@@ -21,7 +21,7 @@ class GameState
   const STATE_ROUND_FINISH = 5;
   const STATE_GAME_FINISH = 10;
 
-  public function __construct($player1, $player2)
+  public function __construct(Player $player1, Player $player2)
   {
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
@@ -60,7 +60,7 @@ class GameState
         $this->updateStateAfterTakePlayerMove($move);
         break;
       case PlayerMove::TYPE_ATTACK:
-        $this->updateStateAfterAttacklayerMove($move);
+        $this->updateStateAfterAttackPlayerMove($move);
         break;
       case PlayerMove::TYPE_DEFEND:
         $this->updateStateAfterDefencePlayerMove($move);
@@ -81,7 +81,7 @@ class GameState
   {
     $this->tableCards = array();
     $this->state = $this::STATE_ROUND_FINISH;
-    $this->addCardsForPlayer($this->movingPlayer, $tableCards);
+    $this->movingPlayer->addHandCards($this->tableCards);
     $this->changeMovePlayer();
   }
 
@@ -89,7 +89,7 @@ class GameState
   {
     if (!$move->card->CanBeAttackCard())
     {
-      $this->state = STATE_GAME_FINISH;
+      $this->state = GameState::STATE_GAME_FINISH;
       return;
     }
     if ($this->isGameFinished())
@@ -104,7 +104,7 @@ class GameState
   {
     if (!$move->card->BeatAnotherCard($this->lastAttackCard, $this->trump))
     {
-      $this->state = STATE_GAME_FINISH;
+      $this->state = GameState::STATE_GAME_FINISH;
       return;
     }
     if ($this->isGameFinished())
@@ -118,7 +118,7 @@ class GameState
   {
     if ($this->deck->getSize() == 0)
     {
-      if ($this->$player1->countHandCards() == 0)
+      if ($this->player1->countHandCards() == 0)
       {
         $this->winner = $this->player1;
         $this->state = $this::STATE_ROUND_FINISH;
@@ -169,12 +169,15 @@ class GameState
     return $this->winner;
   }
 
-  public function getMovePlayer()
-  {
-    if ($this->movingPlayer == $this->player1)
+  public function changeMovePlayer() {
+    if ($this->movingPlayer === $this->player1)
       $this->movingPlayer = $this->player2;
     else
       $this->movingPlayer = $this->player1;
+  }
+
+  public function getMovePlayer()
+  {
     return $this->movingPlayer;
   }
 }

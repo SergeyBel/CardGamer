@@ -10,7 +10,7 @@ class GameHistory
   public function __construct()
   {
     $this->winner = -1;
-    $this->$states = array();
+    $this->states = array();
   }
 
 }
