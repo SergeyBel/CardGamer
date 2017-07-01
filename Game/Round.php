@@ -13,7 +13,7 @@ class Round
   public function playRound()
   {
     $gameState->distributeCards();
-    while (!$this->isroundFinished())
+    while (!$this->isRoundFinished())
     {
       $this->playMove();
     }
@@ -30,5 +30,7 @@ class Round
     $move = $player->makeMove();
     $gameState->updateStateAfterPlayerMove($move);
   }
+
+
 
 }
