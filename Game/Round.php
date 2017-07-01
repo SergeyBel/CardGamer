@@ -5,7 +5,7 @@ class Round
   private $gameState;
 
 
-  public function __construct($gameState)
+  public function __construct(GameState $gameState)
   {
     $this->gameState = $gameState;
     $this->gameState->startRound();

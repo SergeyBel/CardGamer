@@ -41,11 +41,12 @@ class GameState
     $data->trumpCard = $this->trump;
     $data->deckSize = $this->deck->getSize();
     $data->moveType = $this->movingType;
-    $data->tableDiscardedCards = $this->table;
+    $data->tableDiscardedCards = $this->tableCards;
     if ($this->movingType == PlayerData::TYPE_DEFEND)
       $data->enemyCard = $this->lastAttackCard;
     else
       $data->enemyCard = false;
+    return $data;
   }
 
   public function updateStateAfterPlayerMove($move)
@@ -174,5 +175,6 @@ class GameState
       $this->movingPlayer = $this->player2;
     else
       $this->movingPlayer = $this->player1;
+    return $this->movingPlayer;
   }
 }

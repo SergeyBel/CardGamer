@@ -4,11 +4,11 @@ class Card
 {
  
 
-  public $suit; // 1...3
+  public $suit; // 1...4
   public $value;  // 6..14
   
   const CARD_SUIT_MIN = 1;
-  const CARD_SUIT_MAX = 3;
+  const CARD_SUIT_MAX = 4;
   const CARD_VAL_MIN = 6;
   const CARD_VAL_MAX = 14;
 
