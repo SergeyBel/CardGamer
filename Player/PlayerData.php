@@ -9,7 +9,7 @@ class PlayerData
   public $deckSize;
   public $roundNumber;
   public $moveType;
-  public $tableDiscardedPairs;
+  public $tableDiscardedCards;
   public $enemyCard;
   
   public function __construct()
