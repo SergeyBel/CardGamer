@@ -120,13 +120,13 @@ class GameState
     {
       if ($this->player1->countHandCards() == 0)
       {
-        $this->setWinner($player1);
+        $this->setWinner($this->player1);
         return true;
       }
 
       if ($this->player2->countHandCards() == 0)
       {
-        $this->winner = setWinner($player2);
+        $this->setWinner($this->player2);
         return true;    
       }
     }
@@ -135,8 +135,8 @@ class GameState
 
   public function setWinner($player)
   {
-    $this->winner = $this->player;
-    $this->state = $this::STATE_ROUND_FINISH;
+    $this->winner = $player;
+    $this->state = $this::STATE_GAME_FINISH;
   }
 
 
@@ -149,7 +149,8 @@ class GameState
   private function distributeCardsForPlayer(Player $player)
   {
     $newCards = $this->deck->popCards($this::CARDS_IN_HAND - $player->countHandCards());
-    $player->addHandCards($newCards);
+    if(!empty($newCards))
+      $player->addHandCards($newCards);
   }
 
 

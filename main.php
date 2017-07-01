@@ -17,8 +17,8 @@ require_once("Player/Player.php");
 
 
 
-$player1 = new Player("cmd.exe");
-$player2 = new Player("cmd.exe");
+$player1 = new Player(1,"cmd.exe");
+$player2 = new Player(2,"cmd.exe");
 $game = new Game($player1, $player2);
 $winner = $game->startGame($gameHistory);
-echo $winner;
+echo "Winner: ".$winner->id."\n";

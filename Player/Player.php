@@ -5,9 +5,11 @@ class Player
 {
   private $exe;
   private $hand;
+  public $id;
 
-  public function __construct($filePath)
+  public function __construct($id, $filePath)
   {
+    $this->id = $id;
     $this->hand = array();
     $this->exe = new PlayerExe($filePath);
   }
@@ -88,8 +90,6 @@ class Player
 
   public function addHandCards(array $cards)
   {
-    if(empty($cards))
-      return;
     foreach ($cards as $card) {
       $this->addHandCard($card);
     }
