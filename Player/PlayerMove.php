@@ -10,4 +10,9 @@ class PlayerMove
   {
 
   }
+
+  public static function fromString(string $str) : PlayerMove {
+    $move = new PlayerMove();
+    return $move;
+  }
 }

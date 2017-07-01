@@ -2,35 +2,26 @@
 
 class Player
 {
-  private $hand;
   private $filePath;
-  
+
 
   public function __construct($filePath)
   {
-    $hand = new CardsArray();
     $this->filePath = $filePath;
   }
 
-  public function makeMove($playerData)
+  public function makeMove(PlayerData $playerData): PlayerMove
   {
-    $stdinStr = $this->dataToStr($this->hand, $playerData);
-    return $this->call($stdinStr);
+    $stringData = $playerData->toString();
+    $stringMove = $this->interactWithPlayer($stringData);
+    $move = PlayerMove::fromString($stringMove);
+    return $move;
   }
 
-  public function dataToStr($hand, $playerData)
-  {
-    // make string to get in strategy program stdin
-  }
 
-  protected function call($str)
+  protected function interactWithPlayer(string $str): string
   {
-    //need overrired to strategy programs on different languages
-    //call startegy program, get answer and return PlayerMove class
-  }
-
-  public function setCards($cards)
-  {
-    $this->hand = $cards;
+    return "";
   }
 }
+
