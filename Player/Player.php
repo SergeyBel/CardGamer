@@ -1,4 +1,6 @@
 <?php
+require_once('Cards\CardsArray.php');
+
 
 class Player
 {
@@ -32,5 +34,10 @@ class Player
   public function setCards($cards)
   {
     $this->hand = $cards;
+  }
+
+  function getCards()
+  {
+    return $this->hand;
   }
 }
