@@ -26,9 +26,9 @@ class GameState
     $this->tableCards = array();
     $this->player1 = $player1;
     $this->player2 = $player2;
-    $player1->setCards($this->deck->popCards(CARDS_IN_HAND));
-    $player2->setCards($this->deck->popCards(CARDS_IN_HAND));
-    $this->state = STATE_GAME_START;
+    $player1->setCards($this->deck->popCards($this::CARDS_IN_HAND));
+    $player2->setCards($this->deck->popCards($this::CARDS_IN_HAND));
+    $this->state = $this::STATE_GAME_START;
   }
 
   public function getState()

@@ -14,7 +14,7 @@ class CardsDeck
       for ($value = Card::CARD_VAL_MIN; $value <= Card::CARD_VAL_MAX; $value++)
       {
         $card = new Card($suit, $value);
-        $cards.push($card);
+        $this->cards[] = $card;
       }
     }
   }
@@ -24,12 +24,17 @@ class CardsDeck
     $N = 100;
     for ($i = 0; $i < $N; $i++)
     {
-      $j = rand(0, count($cards));
-      $k = rand(0, count($cards));
-      $c = $cards[$k];
-      $cards[$k] = $cards[$j];
-      $cards[$j] = $c;
+      $j = rand(0, count($this->cards) - 1);
+      $k = rand(0, count($this->cards) - 1);
+      $c = $this->cards[$k];
+      $this->cards[$k] = $this->cards[$j];
+      $this->cards[$j] = $c;
     }
+  }
+
+  public function popCards($count)
+  {
+    return array_slice($this->cards, 0, $count);
   }
 
 }
