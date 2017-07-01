@@ -8,7 +8,7 @@ class CardsDeck
 
   public function __construct()
   {
-    $cards = array();
+    $this->cards = array();
     for ($suit = Card::CARD_SUIT_MIN; $suit <= Card::CARD_SUIT_MAX; $suit++)
     {
       for ($value = Card::CARD_VAL_MIN; $value <= Card::CARD_VAL_MAX; $value++)

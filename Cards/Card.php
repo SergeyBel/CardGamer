@@ -20,7 +20,7 @@ class Card
 
   function isCardCorrect()
   {
-    return $this->suite >= $this::CARD_SUIT_MIN && $this->suit <= $this::CARD_SUIT_MAX &&
+    return $this->suit >= $this::CARD_SUIT_MIN && $this->suit <= $this::CARD_SUIT_MAX &&
           $this->value >= $this::CARD_VAL_MIN && $this->value <= $this::CARD_VAL_MAX;
   }
 
@@ -28,7 +28,7 @@ class Card
   {
     foreach($tableCards as $tableCard)
     {
-      if ($tableCard->value == $card->value)
+      if ($tableCard->value == $this->value)
         return true;
     }
     return false;
