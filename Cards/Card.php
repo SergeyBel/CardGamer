@@ -24,5 +24,29 @@ class Card
           $this->value >= $this::CARD_VAL_MIN && $this->value <= $this::CARD_VAL_MAX;
   }
 
+  public function CanBeAttackCard($tableCards)
+  {
+    foreach($tableCards as $tableCard)
+    {
+      if ($tableCard->value == $card->value)
+        return true;
+    }
+    return false;
+  }
+
+  public function BeatAnotherCard($attackCard, $trump)
+  {
+    if ($this->suit == $trump && $attackCard != $trump)
+      return true;
+
+    if ($this->suit == $trump && $attackCard == $trump && $this->value > $attackCard->value)
+      return true;
+
+    if ($this->suit != $trump && $attackCard != $trump && $this->value > $attackCard->value)
+      return true;
+
+    return false;
+  }
+
 
 }

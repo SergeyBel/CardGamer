@@ -71,15 +71,23 @@ class GameState
 
   private function updateStateAfterAttackPlayerMove($move)
   {
+    if (!$move->card->CanBeAttackCard())
+    {
+      $this->state = STATE_GAME_FINISH;
+      return;
+    }
     $this->tableCards[] = $move->card;
-    //check that card value in card values on table
     $this->playerState->changeMovePlayer();
   }
 
     private function updateStateAfterDefencePlayerMove($move)
   {
+    if (!$move->card->BeatAnotherCard($this->lastAttackCard, $this->trump))
+    {
+      $this->state = STATE_GAME_FINISH;
+      return;
+    }
     $this->tableCards[] = $move->card;
-    //check that card more than attack card
     $this->playerState->changeMovePlayer();
   }
 
