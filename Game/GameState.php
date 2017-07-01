@@ -120,19 +120,23 @@ class GameState
     {
       if ($this->player1->countHandCards() == 0)
       {
-        $this->winner = $this->player1;
-        $this->state = $this::STATE_ROUND_FINISH;
+        $this->setWinner($player1);
         return true;
       }
 
       if ($this->player2->countHandCards() == 0)
       {
-        $this->winner = $this->player2;
-        $this->state = $this::STATE_ROUND_FINISH;
+        $this->winner = setWinner($player2);
         return true;    
       }
     }
     return false;
+  }
+
+  private function setWinner($player)
+  {
+    $this->winner = $this->player;
+    $this->state = $this::STATE_ROUND_FINISH;
   }
 
 

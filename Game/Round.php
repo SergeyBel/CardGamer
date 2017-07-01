@@ -29,7 +29,17 @@ class Round
   protected function playMove()
   {
     $player = $this->gameState->getMovePlayer();
-    $move = $player->makeMove($this->gameState->createPlayerData());
-    $this->gameState->updateStateAfterPlayerMove($move);
+    try 
+    {
+      $move = $player->makeMove($this->gameState->createPlayerData());
+      $this->gameState->updateStateAfterPlayerMove($move);
+    }
+    catch(Exception $e)
+    {
+      $this->gameState->changeMovePlayer();
+      $this->gameState->setWinner($this->gameState->getMovePlayer());
+    }
+    
+    
   }
 }
