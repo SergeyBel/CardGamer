@@ -39,4 +39,10 @@ class CardsDeck
     return array_slice($this->cards, 0, $count);
   }
 
+  public function getRandomCard()
+  {
+    $j = rand(0, count($this->cards) - 1);
+    return $this->cards[$j];
+  }
+
 }

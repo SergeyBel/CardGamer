@@ -25,6 +25,7 @@ class GameState
   {
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
+    $this->trump = $this->deck->getRandomCard();
     $this->tableCards = array();
     $this->state = $this::STATE_GAME_START;
     $this->player1 = $player1;
@@ -36,7 +37,6 @@ class GameState
   {
     switch($move->type)
     {
-      //Todo: change to actual statuses
       case PlayerMove::TYPE_DISCARD:
         $this->updateStateAfterDiscardPlayerMove($move);
         break;
