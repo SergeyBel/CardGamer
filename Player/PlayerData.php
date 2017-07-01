@@ -1,14 +1,17 @@
 <?php
 
-// data that player get about game
 class PlayerData
 {
-  public $enemyCard;
   public $trumpCard;
-
-
+  public $deckSize;
+  public $roundNumber;
+  public $moveType;
+  public $tableDiscardedPairs;
+  public $enemyCard;
+  
   public function __construct()
   {
 
   }
+
 }
