@@ -34,7 +34,20 @@ class CardsDeck
 
   public function popCards($count)
   {
+    if ($count <= 0)
+      return;
     return array_slice($this->cards, 0, $count);
+  }
+
+  public function getRandomCard()
+  {
+    $j = rand(0, count($this->cards) - 1);
+    return $this->cards[$j];
+  }
+
+  public function getSize()
+  {
+    return count($this->cards);
   }
 
 }

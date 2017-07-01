@@ -8,12 +8,13 @@ class Round
   public function __construct($gameState)
   {
     $this->gameState = $gameState;
+    $this->gameState->startRound();
   }
 
   public function playRound()
   {
-    $this->distributeCards();
-    while (!$this->isroundFinished())
+    $gameState->distributeCards();
+    while (!$this->isRoundFinished())
     {
       $this->playMove();
     }
@@ -21,19 +22,14 @@ class Round
 
   protected function isRoundFinished()
   {
-    return $gameState->getStatus() == GameState::STATE_ROUND_FINISH;
-  }
-
-  protected function distribureCards()
-  {
-
+    $status = $gameState->getStatus();
+    return ($status == GameState::STATE_ROUND_FINISH || $status == GameState::STATE_GAME_FINISH);
   }
 
   protected function playMove()
   {
     $player = $this->gameState->getMovePlayer();
-    $move = $player->makeMove();
+    $move = $player->makeMove($this->gameState->createPlayerData());
     $gameState->updateStateAfterPlayerMove($move);
   }
-
 }
