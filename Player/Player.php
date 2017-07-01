@@ -48,7 +48,7 @@ class Player
     $stringMoveType = $this->exe->readString();
 
     if(empty($stringMoveType) or !is_numeric($stringMoveType))
-      throw new Exception("Move type not numeric: $str");
+      throw new Exception("Move type not numeric: $stringMoveType");
 
     $moveType = intval($stringMoveType);
 

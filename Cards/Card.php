@@ -26,6 +26,8 @@ class Card
 
   public function CanBeAttackCard($tableCards)
   {
+    if (empty($tableCards))
+      return true;
     foreach($tableCards as $tableCard)
     {
       if ($tableCard->value == $this->value)

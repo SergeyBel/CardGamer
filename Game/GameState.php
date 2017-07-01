@@ -74,20 +74,22 @@ class GameState
   {
     $this->tableCards = array();
     $this->state = $this::STATE_ROUND_FINISH;
+    $this->movingType = PlayerData::TYPE_ATTACK;
     $this->changeMovePlayer();
   }
 
   private function updateStateAfterTakePlayerMove($move)
   {
-    $this->tableCards = array();
     $this->state = $this::STATE_ROUND_FINISH;
+    $this->movingType = PlayerData::TYPE_ATTACK;
     $this->movingPlayer->addHandCards($this->tableCards);
+    $this->tableCards = array();
     $this->changeMovePlayer();
   }
 
   private function updateStateAfterAttackPlayerMove($move)
   {
-    if (!$move->card->CanBeAttackCard())
+    if (!$move->card->CanBeAttackCard($this->tableCards))
     {
       $this->state = GameState::STATE_GAME_FINISH;
       return;

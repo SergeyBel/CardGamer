@@ -34,7 +34,7 @@ class PlayerExe
 
   public function readString() : string
   {
-    $res = fgets($this->pipes[1]);
+    $res = trim(fgets($this->pipes[1]));
     if($res === false)
       throw new Exception("fgets failed");
     return $res;
