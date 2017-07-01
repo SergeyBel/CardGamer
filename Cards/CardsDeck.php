@@ -45,4 +45,9 @@ class CardsDeck
     return $this->cards[$j];
   }
 
+  public function getSize()
+  {
+    return count($this->cards);
+  }
+
 }

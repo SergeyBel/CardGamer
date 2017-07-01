@@ -12,7 +12,8 @@ class GameState
   private $player1;
   private $player2;
   private $movingPlayer;
-
+  private $movingType;
+  private $lastAttackCard;
 
   const CARDS_IN_HAND = 6;
 
@@ -31,6 +32,18 @@ class GameState
     $this->player1 = $player1;
     $this->player2 = $player2;
     $this->movingPlayer = $player1;
+    $this->movingType = PlayerData::TYPE_ATTACK;
+  }
+
+  public function createPlayerData()
+  {
+    $data = new PlayerData();
+    $data->trumpCard = $this->trump;
+    $data->deckSize = $this->deck->getSize();
+    $data->moveType = $this->movingType;
+    $data->tableDiscardedPairs = $table;
+    if ($this->movingType == PlayerData::TYPE_DEFENCE)
+      $data->enemyCard = $this->lastAttackCard;
   }
 
   public function updateStateAfterPlayerMove($move)
@@ -77,6 +90,8 @@ class GameState
       return;
     }
     $this->tableCards[] = $move->card;
+    $this->lastAttackCard = $move->card;
+    $this->movingType = PlayerData::TYPE_DEFENCE;
     $this->playerState->changeMovePlayer();
   }
 
@@ -88,6 +103,7 @@ class GameState
       return;
     }
     $this->tableCards[] = $move->card;
+    $this->movingType = PlayerData::TYPE_ATTACK;
     $this->playerState->changeMovePlayer();
   }
 
