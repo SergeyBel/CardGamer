@@ -133,7 +133,7 @@ class GameState
     return false;
   }
 
-  private function setWinner($player)
+  public function setWinner($player)
   {
     $this->winner = $this->player;
     $this->state = $this::STATE_ROUND_FINISH;
