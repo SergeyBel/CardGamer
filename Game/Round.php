@@ -12,7 +12,7 @@ class Round
 
   public function playRound()
   {
-    $this->distributeCards();
+    $gameState->distributeCards();
     while (!$this->isroundFinished())
     {
       $this->playMove();
@@ -22,11 +22,6 @@ class Round
   protected function isRoundFinished()
   {
     return $gameState->getStatus() == GameState::STATE_ROUND_FINISH;
-  }
-
-  protected function distribureCards()
-  {
-
   }
 
   protected function playMove()

@@ -34,6 +34,8 @@ class CardsDeck
 
   public function popCards($count)
   {
+    if ($count <= 0)
+      return;
     return array_slice($this->cards, 0, $count);
   }
 

@@ -22,13 +22,23 @@ class GameState
   {
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
-
     $this->tableCards = array();
     $this->player1 = $player1;
     $this->player2 = $player2;
-    $player1->setCards($this->deck->popCards($this::CARDS_IN_HAND));
-    $player2->setCards($this->deck->popCards($this::CARDS_IN_HAND));
     $this->state = $this::STATE_GAME_START;
+  }
+
+  public function distributeCards()
+  {
+    $this->distributeCardsForPlayer($this->player1);
+    $this->distributeCardsForPlayer($this->player2);
+  }
+
+  private function distributeCardsForPlayer($player)
+  {
+    $cards = $player->getCards();
+    $newCards = $this->deck->popCards($this::CARDS_IN_HAND - count($cards));
+    $player->setCards(array_merge($cards, $newCards));
   }
 
   public function getState()
