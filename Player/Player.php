@@ -1,5 +1,4 @@
 <?php
-require_once('Cards\CardsArray.php');
 
 
 class Player
@@ -10,7 +9,7 @@ class Player
 
   public function __construct($filePath)
   {
-    $hand = new CardsArray();
+    $hand = array();
     $this->filePath = $filePath;
   }
 

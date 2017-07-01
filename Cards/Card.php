@@ -12,6 +12,12 @@ class Card
   const CARD_VAL_MIN = 6;
   const CARD_VAL_MAX = 14;
 
+  function __construct($suit, $value)
+  {
+    $this->suit = $suit;
+    $this->value = $value;
+  }
+
   function isCardCorrect()
   {
     return $this->suite >= $this::CARD_SUIT_MIN && $this->suit <= $this::CARD_SUIT_MAX &&

@@ -23,7 +23,7 @@ class GameState
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
 
-    $this->tableCards = new CardsArray();
+    $this->tableCards = array();
     $this->player1 = $player1;
     $this->player2 = $player2;
     $player1->setCards($this->deck->popCards(CARDS_IN_HAND));
