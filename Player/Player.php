@@ -26,7 +26,7 @@ class Player
   protected function call($str)
   {
     //need overrired to strategy programs on different languages
-    //call startegy program, get answer and return PlayerMove class
+    //send data to startegy program, get answer and return PlayerMove class
   }
 
   public function setCards($cards)

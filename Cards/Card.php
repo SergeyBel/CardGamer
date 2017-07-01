@@ -2,6 +2,6 @@
 
 class Card
 {
-  public $suit;
-  public $value;
+  public $suit; // 1...3
+  public $value;  // 6..14
 }
