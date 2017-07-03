@@ -12,6 +12,7 @@ class GameState
   private $movingPlayer;
   private $movingType;
   private $lastAttackCard;
+  private $countAttackedCards;
   private $winner;
 
   const CARDS_IN_HAND = 6;
@@ -25,12 +26,14 @@ class GameState
   {
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
-    $this->trump = $this->deck->getTrump();
     $this->tableCards = array();
+    $this->countAttackedCards  = 0;
     $this->state = $this::STATE_GAME_START;
     $this->player1 = $player1;
     $this->player2 = $player2;
-    $this->movingPlayer = $player1;
+    $this->distributeCards();
+    $this->trump = $this->deck->getTrump();
+    $this->setFirstMovingPlayer();
     $this->movingType = PlayerData::TYPE_ATTACK;
     $winner = null;
   }
@@ -72,10 +75,13 @@ class GameState
 
   private function updateStateAfterDiscardPlayerMove($move)
   {
-    $this->tableCards = array();
+    
     $this->state = $this::STATE_ROUND_FINISH;
     $this->movingType = PlayerData::TYPE_ATTACK;
+    $this->tableCards = array();
+    $this->countAttackedCards = 0;
     $this->changeMovePlayer();
+   
   }
 
   private function updateStateAfterTakePlayerMove($move)
@@ -84,12 +90,20 @@ class GameState
     $this->movingType = PlayerData::TYPE_ATTACK;
     $this->movingPlayer->addHandCards($this->tableCards);
     $this->tableCards = array();
+    $this->countAttackedCards = 0;
     $this->changeMovePlayer();
+
   }
 
   private function updateStateAfterAttackPlayerMove($move)
   {
     if (!$move->card->CanBeAttackCard($this->tableCards))
+    {
+      $this->state = GameState::STATE_GAME_FINISH;
+      return;
+    }
+    $this->countAttackedCards++;
+    if ($this->countAttackedCards > GameState::CARDS_IN_HAND)
     {
       $this->state = GameState::STATE_GAME_FINISH;
       return;
@@ -144,8 +158,17 @@ class GameState
 
   public function distributeCards()
   {
-    $this->distributeCardsForPlayer($this->player1);
-    $this->distributeCardsForPlayer($this->player2);
+    if ($this->movingPlayer == $this->player1)
+    {
+      $this->distributeCardsForPlayer($this->player1);
+      $this->distributeCardsForPlayer($this->player2);
+    }
+    else
+    {
+      $this->distributeCardsForPlayer($this->player2);
+      $this->distributeCardsForPlayer($this->player1);
+    }
+
   }
 
   private function distributeCardsForPlayer(Player $player)
@@ -153,6 +176,29 @@ class GameState
     $newCards = $this->deck->popCards($this::CARDS_IN_HAND - $player->countHandCards());
     if(!empty($newCards))
       $player->addHandCards($newCards);
+  }
+
+  private function setFirstMovingPlayer()
+  {
+    $minTrump1 = $this->selectMinTrump($this->player1->getHandCards());
+    $minTrump2 = $this->selectMinTrump($this->player2->getHandCards());
+    $value1 = ($minTrump1 != null)?$minTrump1->value:0;
+    $value2 = ($minTrump2 != null)?$minTrump2->value:0;
+    if ($value2 > $value1)
+      $this->movingPlayer = $this->player2;
+    else
+      $this->movingPlayer = $this->player1;
+  }
+
+  private function selectMinTrump($cards)
+  {
+    $minTrump = null;
+    foreach($cards as $card)
+    {
+      if ($card->suit == $this->trump->suit && ($minTrump == null || $card->value < $minTrump->value))
+        $minTrump = $card;
+    }
+    return $minTrump;
   }
 
 
