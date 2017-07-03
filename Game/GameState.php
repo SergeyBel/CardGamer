@@ -12,6 +12,7 @@ class GameState
   private $movingPlayer;
   private $movingType;
   private $lastAttackCard;
+  private $countAttackedCards;
   private $winner;
 
   const CARDS_IN_HAND = 6;
@@ -27,6 +28,7 @@ class GameState
     $this->deck->shuffleCards();
     $this->trump = $this->deck->getTrump();
     $this->tableCards = array();
+    $this->countAttackedCards  = 0;
     $this->state = $this::STATE_GAME_START;
     $this->player1 = $player1;
     $this->player2 = $player2;
@@ -73,10 +75,13 @@ class GameState
 
   private function updateStateAfterDiscardPlayerMove($move)
   {
-    $this->tableCards = array();
+    
     $this->state = $this::STATE_ROUND_FINISH;
     $this->movingType = PlayerData::TYPE_ATTACK;
+    $this->tableCards = array();
+    $this->countAttackedCards = 0;
     $this->changeMovePlayer();
+   
   }
 
   private function updateStateAfterTakePlayerMove($move)
@@ -85,12 +90,20 @@ class GameState
     $this->movingType = PlayerData::TYPE_ATTACK;
     $this->movingPlayer->addHandCards($this->tableCards);
     $this->tableCards = array();
+    $this->countAttackedCards = 0;
     $this->changeMovePlayer();
+
   }
 
   private function updateStateAfterAttackPlayerMove($move)
   {
     if (!$move->card->CanBeAttackCard($this->tableCards))
+    {
+      $this->state = GameState::STATE_GAME_FINISH;
+      return;
+    }
+    $this->countAttackedCards++;
+    if ($this->countAttackedCards > GameState::CARDS_IN_HAND)
     {
       $this->state = GameState::STATE_GAME_FINISH;
       return;
