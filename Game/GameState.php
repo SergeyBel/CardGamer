@@ -26,14 +26,14 @@ class GameState
   {
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
-    $this->trump = $this->deck->getTrump();
     $this->tableCards = array();
     $this->countAttackedCards  = 0;
     $this->state = $this::STATE_GAME_START;
     $this->player1 = $player1;
     $this->player2 = $player2;
     $this->distributeCards();
-    $this->movingPlayer = $this->setFirstMovingPlayer();
+    $this->trump = $this->deck->getTrump();
+    $this->setFirstMovingPlayer();
     $this->movingType = PlayerData::TYPE_ATTACK;
     $winner = null;
   }
@@ -185,9 +185,9 @@ class GameState
     $value1 = ($minTrump1 != null)?$minTrump1->value:0;
     $value2 = ($minTrump2 != null)?$minTrump2->value:0;
     if ($value2 > $value1)
-      $this->movingPlayer = $player2;
+      $this->movingPlayer = $this->player2;
     else
-      $this->movingPlayer = $player1;
+      $this->movingPlayer = $this->player1;
   }
 
   private function selectMinTrump($cards)
@@ -195,7 +195,7 @@ class GameState
     $minTrump = null;
     foreach($cards as $card)
     {
-      if ($card->suit == $this->trump && ($minTrump == null || $card->value < $minTrump->value))
+      if ($card->suit == $this->trump->suit && ($minTrump == null || $card->value < $minTrump->value))
         $minTrump = $card;
     }
     return $minTrump;
