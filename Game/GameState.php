@@ -160,13 +160,13 @@ class GameState
   {
     if ($this->movingPlayer == $this->player1)
     {
-      $this->distributeCardsForPlayer($this->player2);
       $this->distributeCardsForPlayer($this->player1);
+      $this->distributeCardsForPlayer($this->player2);
     }
     else
     {
-      $this->distributeCardsForPlayer($this->player1);
       $this->distributeCardsForPlayer($this->player2);
+      $this->distributeCardsForPlayer($this->player1);
     }
 
   }
