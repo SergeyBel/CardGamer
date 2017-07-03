@@ -144,8 +144,17 @@ class GameState
 
   public function distributeCards()
   {
-    $this->distributeCardsForPlayer($this->player1);
-    $this->distributeCardsForPlayer($this->player2);
+    if ($this->movingPlayer == $this->player1)
+    {
+      $this->distributeCardsForPlayer($this->player2);
+      $this->distributeCardsForPlayer($this->player1);
+    }
+    else
+    {
+      $this->distributeCardsForPlayer($this->player1);
+      $this->distributeCardsForPlayer($this->player2);
+    }
+
   }
 
   private function distributeCardsForPlayer(Player $player)
