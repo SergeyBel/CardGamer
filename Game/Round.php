@@ -13,11 +13,11 @@ class Round
 
   public function playRound()
   {
-    $this->gameState->distributeCards();
     while (!$this->isRoundFinished())
     {
       $this->playMove();
     }
+    $this->gameState->distributeCards();
   }
 
   protected function isRoundFinished()
