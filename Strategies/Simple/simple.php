@@ -27,13 +27,10 @@ class Card
 
   public function BeatAnotherCard($attackCard, $trump)
   {
-    if ($this->suit == $trump && $attackCard != $trump)
+    if ($this->suit == $trump->suit && $attackCard->suit != $trump->suit)
       return true;
 
-    if ($this->suit == $trump && $attackCard == $trump && $this->value > $attackCard->value)
-      return true;
-
-    if ($this->suit != $trump && $attackCard != $trump && $this->value > $attackCard->value)
+    if ($this->suit == $attackCard->suit && $this->value > $attackCard->value)
       return true;
 
     return false;
@@ -167,11 +164,15 @@ function Defend($hand, $trump, $table, $enemy)
       $ans->card = $h;
       return $ans;
     }
-
-    $ans->type = Answer::ANSWER_TAKE;
-    return $ans;
   }
+  $ans->type = Answer::ANSWER_TAKE;
+  return $ans;
 
+}
+
+function Logger($text, $data = null)
+{
+  file_put_contents('simple.txt', $text."\n".print_r($data, 1), FILE_APPEND);
 }
 
 
