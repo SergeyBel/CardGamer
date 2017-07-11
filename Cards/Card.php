@@ -38,14 +38,12 @@ class Card
 
   public function BeatAnotherCard($attackCard, $trump)
   {
-    if ($this->suit == $trump && $attackCard != $trump)
+    if ($this->suit == $trump->suit && $attackCard->suit != $trump->suit)
       return true;
 
-    if ($this->suit == $trump && $attackCard == $trump && $this->value > $attackCard->value)
+    if ($this->suit == $attackCard->suit && $this->value > $attackCard->value)
       return true;
 
-    if ($this->suit != $trump && $attackCard != $trump && $this->value > $attackCard->value)
-      return true;
 
     return false;
   }
