@@ -24,6 +24,7 @@ class GameState
 
   public function __construct(Player $player1, Player $player2)
   {
+    $this->gameHistory = new GameHistory();
     $this->deck = new CardsDeck();
     $this->deck->shuffleCards();
     $this->tableCards = array();
@@ -199,6 +200,12 @@ class GameState
         $minTrump = $card;
     }
     return $minTrump;
+  }
+
+  public function saveToHistory()
+  {
+    $item = new GameHistoryItem($this->player1->getHandCards(), $this->player2->getHandCards(), $this->tableCards, $this->deck->getSize(), $this->trump);
+    $this->gameHistory->addState($item);
   }
 
 

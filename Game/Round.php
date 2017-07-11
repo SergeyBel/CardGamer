@@ -15,6 +15,7 @@ class Round
   {
     while (!$this->isRoundFinished())
     {
+      $this->gameState->saveToHistory();
       $this->playMove();
     }
     $this->gameState->distributeCards();
