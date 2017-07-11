@@ -4,13 +4,33 @@
 class GameHistory
 {
   public $states;
-  public $winner;
 
 
   public function __construct()
   {
-    $this->winner = -1;
     $this->states = array();
+  }
+
+  public function addState($item)
+  {
+    $this->states[] = $item;
+  }
+
+  public function toString()
+  {
+    return json_encode($this->states);
+  }
+
+  public function saveToFile($file)
+  {
+    $text = $this->toString();
+    file_put_contents($file, $text);
+  }
+
+  public function loadFromFile($file)
+  {
+    $text = file_get_contents($file);
+    $this->states = json_decode($text, 1);
   }
 
 }
