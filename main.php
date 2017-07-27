@@ -1,24 +1,13 @@
 <?php
 
-require_once("Cards/Card.php");
-require_once("Cards/CardsDeck.php");
+require_once("ClassFactory.php");
 
-require_once("Game/Game.php");
-require_once("Game/GameState.php");
-require_once("Game/Round.php");
+$factory = ClassFactory::getFactory();
 
-require_once("History/GameHistory.php");
-require_once("History/GameHistoryItem.php");
+$player1 = $factory->get("player", 1, "C:/dev/php-7.1/php.exe Strategies/Simple/simple.php");
+$player2 = $factory->get("player", 2, "C:/dev/php-7.1/php.exe Strategies/Simple/simple.php");
+$game = $factory->get("game", $player1, $player2);
 
-require_once("Player/PlayerData.php");
-require_once("Player/PlayerExe.php");
-require_once("Player/PlayerMove.php");
-require_once("Player/Player.php");
-
-
-
-$player1 = new Player(1,"cmd.exe");
-$player2 = new Player(2,"cmd.exe");
-$game = new Game($player1, $player2);
 $winner = $game->startGame($gameHistory);
+$gameHistory->saveToFile("history.txt");
 echo "Winner: ".$winner->id."\n";
