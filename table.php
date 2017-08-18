@@ -4,7 +4,7 @@
 function showHint() 
 {
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET", "http://localhost/CardGamer/table_gen.php", false);
+  xmlhttp.open("GET", "table_gen.php", false);
   xmlhttp.send();
   document.getElementById("table").innerHTML = xmlhttp.responseText;
   if (xmlhttp.responseText.indexOf('table') == -1)

@@ -38,7 +38,7 @@ class Round
     catch(Exception $e)
     {
       $this->gameState->changeMovePlayer();
-      $this->gameState->setWinner($this->gameState->getMovePlayer());
+      $this->gameState->setWinner($this->gameState->getMovePlayer(), $e->getMessage());
     }
     
     

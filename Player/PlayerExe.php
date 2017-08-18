@@ -4,6 +4,7 @@ class PlayerExe
 {
   protected $process;
   protected $pipes;
+  protected $log;
 
   public function __construct(string $commandLine)
   {
@@ -17,6 +18,8 @@ class PlayerExe
 
     if(!is_resource($this->process))
       throw new Exception("Process $commandLine did not start");
+
+    $this->log = "";
   }
 
   public function __destruct()
@@ -28,6 +31,7 @@ class PlayerExe
 
   public function sendString(string $str)
   {
+    $this->log .= ">>>>>>>>>>>>\n$str";
     if(fwrite($this->pipes[0], $str) != strlen($str))
       throw new Exception("fwrite failed to write $str");
   }
@@ -37,8 +41,12 @@ class PlayerExe
     $res = trim(fgets($this->pipes[1]));
     if($res === false)
       throw new Exception("fgets failed");
+    $this->log .= "<<<<<<<<<<<<\n$res\n";
     return $res;
   }
 
-
+  public function getLog(): string
+  {
+    return $this->log;
+  }
 }

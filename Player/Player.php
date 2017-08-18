@@ -14,6 +14,11 @@ class Player
     $this->exe = new PlayerExe($filePath);
   }
 
+  public function getLog() : string
+  {
+    return $this->exe->getLog();
+  }
+
   public function makeMove(PlayerData $playerData): PlayerMove
   {
     $stringData = $this->playerDataToString($playerData);

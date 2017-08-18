@@ -137,22 +137,23 @@ class GameState
     {
       if ($this->player1->countHandCards() == 0)
       {
-        $this->setWinner($this->player1);
+        $this->setWinner($this->player1, "Hand is free");
         return true;
       }
 
       if ($this->player2->countHandCards() == 0)
       {
-        $this->setWinner($this->player2);
+        $this->setWinner($this->player2, "Hand is free");
         return true;    
       }
     }
     return false;
   }
 
-  public function setWinner($player)
+  public function setWinner($player, $reason)
   {
     $this->winner = $player;
+    $this->winReason = $reason;
     $this->state = $this::STATE_GAME_FINISH;
   }
 
@@ -161,22 +162,30 @@ class GameState
   {
     if ($this->movingPlayer == $this->player1)
     {
-      $this->distributeCardsForPlayer($this->player1);
-      $this->distributeCardsForPlayer($this->player2);
+      $firstToTake = $this->player1;
+      $secondToTake = $this->player2;
     }
     else
     {
-      $this->distributeCardsForPlayer($this->player2);
-      $this->distributeCardsForPlayer($this->player1);
+      $firstToTake = $this->player2;
+      $secondToTake = $this->player1;
     }
+
+    do {
+      $c1 = $this->distributeCardForPlayer($firstToTake);
+      $c2 = $this->distributeCardForPlayer($secondToTake);
+    } while($c1 or $c2);
 
   }
 
-  private function distributeCardsForPlayer(Player $player)
+  private function distributeCardForPlayer(Player $player)
   {
-    $newCards = $this->deck->popCards($this::CARDS_IN_HAND - $player->countHandCards());
+    if($player->countHandCards() >= $this::CARDS_IN_HAND)
+      return 0;
+    $newCards = $this->deck->popCards(1);
     if(!empty($newCards))
       $player->addHandCards($newCards);
+    return count($newCards);
   }
 
   private function setFirstMovingPlayer()
@@ -228,6 +237,12 @@ class GameState
   {
     return $this->winner;
   }
+
+  public function getWinReason()
+  {
+    return $this->winReason;
+  }
+
 
   public function changeMovePlayer() {
     if ($this->movingPlayer === $this->player1)

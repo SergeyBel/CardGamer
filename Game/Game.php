@@ -19,7 +19,9 @@ class Game
     }
 
     $gameHistory = $this->gameState->getHistory();
-
+    $gameHistory->winner = $this->gameState->getWinner()->id;
+    $gameHistory->winReason = $this->gameState->getWinReason();
+    
     return $this->gameState->getWinner();
   }
 

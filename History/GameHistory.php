@@ -5,12 +5,16 @@ class GameHistory
 {
   public $states;
   public $next;
+  public $winner;
+  public $winReason;
 
 
   public function __construct()
   {
     $this->states = array();
     $this->next = 0;
+    $this->winner = 0;
+    $this->winReason = '';
   }
 
   public function addState($item)
@@ -45,6 +49,10 @@ class GameHistory
     $gh =  unserialize($text);
     $this->states = $gh->states;
     $this->next = $gh->next;
+    $this->winner = $gh->winner;
+    $this->winReason = $gh->winReason;
+    
+     
   }
 
 }

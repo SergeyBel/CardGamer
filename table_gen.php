@@ -22,7 +22,7 @@ $gameHistory->loadFromFile('history.txt');
 $state = $gameHistory->getNextState();
 $gameHistory->saveToFile('history.txt');
 
-DrawState($state);
+DrawState($state, $gameHistory->winner);
 
 function DrawCard($arr, $i)
 {
@@ -46,10 +46,10 @@ function DrawCardLine($arr, $cardsInLine, $offset)
 }
 
 
-function DrawState($state)
+function DrawState($state, $winner)
 {
-  if (!$state)
-    die("END");
+  if (!$state) 
+    die("END, Winner: $winner");
 
 
 ?>
@@ -61,7 +61,7 @@ function DrawState($state)
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
-td { width: 7%; height: 25%; }
+td { width: 7%; height: 100px; }
 td img { display:block; width:100%; height:100%; }
 </style>
 <title>Поле</title>
@@ -74,10 +74,9 @@ td img { display:block; width:100%; height:100%; }
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
+<td style="font-size: 60px"><?=$state->deckCount; ?></td>
 <td>&nbsp;</td>
 <td><?php DrawCard(array($state->trump), 0); ?></td>
-<td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
@@ -103,23 +102,29 @@ td img { display:block; width:100%; height:100%; }
 <?php DrawCardLine($state->tableCards, 6, 1) ?>
 <td>&nbsp;</td>
 <?php DrawCardLine($state->player2Cards, 3, 1) ?>
-
-
 </tr>
+
 <tr>
 <?php DrawCardLine($state->player1Cards, 3, 2) ?>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>&nbsp;</td>
+<?php DrawCardLine($state->tableCards, 6, 2) ?>
 <td>&nbsp;</td>
 <?php DrawCardLine($state->player2Cards, 3, 2) ?>
-
-
 </tr>
+
+<tr>
+<?php DrawCardLine($state->player1Cards, 3, 3) ?>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+<?php DrawCardLine($state->player2Cards, 3, 3) ?>
+</tr>
+
 
 </tbody>
 </table>
